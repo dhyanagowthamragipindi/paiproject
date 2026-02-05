@@ -1,0 +1,35 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+set<pair<int,int>> visited;
+int A, B, T;
+
+bool dfs(int x, int y) {
+    if (x == T || y == T) {
+        cout << "Target reached at (" << x << ", " << y << ")\n";
+        return true;
+    }
+
+    if (visited.count({x, y}))
+        return false;
+
+    visited.insert({x, y});
+
+    return dfs(A, y) ||                       
+           dfs(x, B) ||                       
+           dfs(0, y) ||                      
+           dfs(x, 0) ||                     
+           dfs(x - min(x, B - y), y + min(x, B - y)) || 
+           dfs(x + min(y, A - x), y - min(y, A - x));   
+}
+
+int main() {
+    A = 4;
+    B = 3;
+    T = 2;
+
+    if (!dfs(0, 0))
+        cout << "Target not reachable\n";
+
+    return 0;
+}
